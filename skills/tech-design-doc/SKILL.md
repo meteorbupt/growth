@@ -167,6 +167,110 @@ flowchart TD
 - **存储设计**：ER 图、数据库表结构
 - **接口设计**：到入参/出参粒度（可贴 yapi）
 
+**参考示例（电商订单系统，Mermaid 语法）：**
+
+**① 业务全流程图**（flowchart）：
+```mermaid
+flowchart TD
+    A(["用户发起下单"]) --> B{"库存是否充足？"}
+    B -- 否 --> X["提示库存不足，流程结束"]
+    B -- 是 --> C["预占库存"]
+    C --> D["生成待支付订单"]
+    D --> E{"15分钟内支付？"}
+    E -- 超时未支付 --> F["关闭订单 & 释放库存"]
+    E -- 支付成功 --> G["支付回调确认"]
+    G --> H["扣减实际库存"]
+    H --> I["通知物流发货"]
+    I --> J(["流程结束"])
+    F --> J
+```
+
+**② 业务实体设计**（classDiagram）：
+```mermaid
+classDiagram
+    class User {
+        +Long userId
+        +String name
+        +String phone
+    }
+    class Order {
+        +Long orderId
+        +Long userId
+        +BigDecimal amount
+        +OrderStatus status
+        +createOrder()
+    }
+    class OrderItem {
+        +Long itemId
+        +Long productId
+        +Integer quantity
+    }
+    class Product {
+        +Long productId
+        +String name
+        +Integer stock
+    }
+    User "1" --> "0..*" Order : 下单
+    Order "1" --> "1..*" OrderItem : 包含
+    OrderItem "0..*" --> "1" Product : 关联商品
+```
+
+**③ 任务状态图**（stateDiagram-v2）：
+```mermaid
+stateDiagram-v2
+    [*] --> 待支付: 创建订单
+    待支付 --> 已支付: 支付成功
+    待支付 --> 已关闭: 超时未支付
+    已支付 --> 已发货: 商家发货
+    已发货 --> 已签收: 用户确认
+    已签收 --> 已完成: 售后期结束
+    已关闭 --> [*]
+    已完成 --> [*]
+```
+
+**④ 核心子流程时序图**（sequenceDiagram）：
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant GW as 网关
+    participant OS as 订单服务
+    participant PS as 商品服务
+    participant DB as MySQL
+    participant MQ as 消息队列
+    U->>GW: POST /order/create
+    GW->>OS: 转发请求
+    OS->>PS: 校验&预占库存
+    PS-->>OS: 预占成功
+    OS->>DB: 写入订单(待支付)
+    OS->>MQ: 发送"订单创建"事件
+    OS-->>GW: 返回订单号
+    GW-->>U: 下单成功
+    Note over OS,MQ: 异步：倒计时/通知由消费者处理
+```
+
+**⑤ 存储设计 ER 图**（erDiagram）：
+```mermaid
+erDiagram
+    USER ||--o{ ORDER : places
+    ORDER ||--|{ ORDER_ITEM : contains
+    PRODUCT ||--o{ ORDER_ITEM : referenced_by
+    ORDER {
+        bigint order_id PK
+        bigint user_id FK
+        decimal amount
+        varchar status
+        datetime created_at
+    }
+    ORDER_ITEM {
+        bigint item_id PK
+        bigint order_id FK
+        bigint product_id FK
+        int quantity
+    }
+```
+
+> 写法要点：流程图聚焦核心路径与关键分支判断；时序图标注同步调用与异步消息；ER 图只画表级关系与关键字段。
+
 ### 第四步：方案对比与决策
 
 **目标**：体现思考深度，为决策提供依据。

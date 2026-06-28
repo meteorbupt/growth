@@ -167,6 +167,110 @@ Includes:
 - **Storage design**: ER diagram + table schema
 - **API design**: down to request/response params (can link to API portal)
 
+**Reference Examples (E-commerce Order System, Mermaid syntax):**
+
+**① End-to-End Business Flow** (order placement, flowchart):
+```mermaid
+flowchart TD
+    A(["User places order"]) --> B{"Stock available?"}
+    B -- No --> X["Show out-of-stock, end"]
+    B -- Yes --> C["Pre-allocate stock"]
+    C --> D["Create pending order"]
+    D --> E{"Paid within 15 min?"}
+    E -- Timeout --> F["Close order & release stock"]
+    E -- Paid --> G["Payment callback"]
+    G --> H["Deduct actual stock"]
+    H --> I["Notify logistics"]
+    I --> J(["End"])
+    F --> J
+```
+
+**② Domain Entity Design** (classDiagram):
+```mermaid
+classDiagram
+    class User {
+        +Long userId
+        +String name
+        +String phone
+    }
+    class Order {
+        +Long orderId
+        +Long userId
+        +BigDecimal amount
+        +OrderStatus status
+        +createOrder()
+    }
+    class OrderItem {
+        +Long itemId
+        +Long productId
+        +Integer quantity
+    }
+    class Product {
+        +Long productId
+        +String name
+        +Integer stock
+    }
+    User "1" --> "0..*" Order : places
+    Order "1" --> "1..*" OrderItem : contains
+    OrderItem "0..*" --> "1" Product : references
+```
+
+**③ State Diagram** (order lifecycle, stateDiagram-v2):
+```mermaid
+stateDiagram-v2
+    [*] --> Unpaid: create order
+    Unpaid --> Paid: payment success
+    Unpaid --> Closed: timeout
+    Paid --> Shipped: merchant ships
+    Shipped --> Received: user confirms
+    Received --> Completed: after-sales end
+    Closed --> [*]
+    Completed --> [*]
+```
+
+**④ Core Sequence Diagram** (create order, sequenceDiagram):
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant GW as Gateway
+    participant OS as OrderService
+    participant PS as ProductService
+    participant DB as MySQL
+    participant MQ as MessageQueue
+    U->>GW: POST /order/create
+    GW->>OS: forward
+    OS->>PS: check & pre-allocate stock
+    PS-->>OS: success
+    OS->>DB: insert order (unpaid)
+    OS->>MQ: publish "order.created"
+    OS-->>GW: return orderId
+    GW-->>U: order placed
+    Note over OS,MQ: Async: countdown/notify handled by consumers
+```
+
+**⑤ Storage ER Diagram** (erDiagram):
+```mermaid
+erDiagram
+    USER ||--o{ ORDER : places
+    ORDER ||--|{ ORDER_ITEM : contains
+    PRODUCT ||--o{ ORDER_ITEM : referenced_by
+    ORDER {
+        bigint order_id PK
+        bigint user_id FK
+        decimal amount
+        varchar status
+        datetime created_at
+    }
+    ORDER_ITEM {
+        bigint item_id PK
+        bigint order_id FK
+        bigint product_id FK
+        int quantity
+    }
+```
+
+> Tips: flowchart focuses on the core path and key branch decisions; sequence diagrams mark sync calls vs async messages; ER diagrams show only table relationships and key fields.
+
 ### Step 4: Option Comparison & Decision
 
 **Goal**: Demonstrate depth of thinking, justify the decision.
