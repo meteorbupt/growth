@@ -33,6 +33,8 @@ growth/
 | [tech-planning](./skills/tech-planning/SKILL.md) | 技术规划文档编写 | 当需要技术规划、技术路线图、技术战略或团队技术方向规划时 |
 | [tech-design-doc](./skills/tech-design-doc/SKILL.md) | 技术方案文档编写与审核 | 当需要写技术方案、设计评审、技术选型、容量评估，或审核一份技术方案时 |
 
+> Skills 目录下每个技能包含 `SKILL.md`（中文版）和 `SKILL.en.md`（英文版，供 AI 调用）。技术方案技能内置 mermaid 架构三视图示例。
+
 ## 使用说明
 
 ### 如何添加新内容
@@ -73,6 +75,7 @@ growth/
 
 ## 更新日志
 
+- 2026-06-28：技术方案技能补充 mermaid 架构三视图示例；英文版 skill 统一归入 skills 目录
 - 2026-06-28：添加技术方案文档技能（tech-design-doc），含编写与审核方法论
 - 2026-06-27：添加技术规划技能模板（skills目录）
 - 2026-06-27：项目初始化，创建基础结构

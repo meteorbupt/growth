@@ -65,10 +65,95 @@ Switch based on user intent:
 | **Application architecture** | Microservices | How many services? Data flow (UI→gateway→service→infra)? |
 | **Deployment architecture** | Physical | How is it deployed? Real topology of network, gateway, firewall, storage? |
 
+**Reference Examples (E-commerce Order System, Mermaid syntax):**
+
+**① Business Architecture** (business modules + upstream/downstream):
+```mermaid
+flowchart TD
+    subgraph Users["User Roles"]
+        C["Consumer"]
+        M["Merchant"]
+    end
+    subgraph BizModules["Business Modules (in-house)"]
+        IC["Product Center"]
+        OC["Order Center"]
+        PC["Payment Center"]
+        MC["Marketing Center"]
+    end
+    subgraph ThirdParty["Upstream / Third-party"]
+        LP["Logistics"]
+        PG["Payment Gateway"]
+        NS["Notification"]
+    end
+    C --> IC
+    C --> OC
+    M --> IC
+    OC --> PC
+    OC --> MC
+    PC --> PG
+    OC --> LP
+    MC --> NS
+```
+
+**② Application Architecture** (microservice vertical layering):
+```mermaid
+flowchart TD
+    UI["Frontend UI"]
+    GW["API Gateway / Load Balancer"]
+    subgraph Services["Microservice Layer"]
+        PSvc["Product Service"]
+        OSvc["Order Service"]
+        PaySvc["Payment Service"]
+    end
+    subgraph Infra["Infrastructure Layer"]
+        DB[("MySQL")]
+        Cache[("Redis")]
+        MQ[("Message Queue")]
+    end
+    UI --> GW
+    GW --> PSvc
+    GW --> OSvc
+    GW --> PaySvc
+    PSvc --> DB
+    OSvc --> DB
+    OSvc --> Cache
+    OSvc --> MQ
+    PaySvc --> MQ
+```
+
+**③ Deployment Architecture** (physical topology):
+```mermaid
+flowchart TD
+    User(("User"))
+    FW["Firewall"]
+    LB["Nginx Load Balancer"]
+    subgraph K8s["K8s Cluster"]
+        GWPod["API Gateway Pod"]
+        subgraph Pods["Service Pods"]
+            S1["Order Service x3"]
+            S2["Product Service x3"]
+        end
+    end
+    subgraph DataLayer["Data Layer"]
+        DBM[("MySQL Master")]
+        DBS[("MySQL Slave")]
+        Redis[("Redis Master/Slave")]
+    end
+    User --> FW
+    FW --> LB
+    LB --> GWPod
+    GWPod --> S1
+    GWPod --> S2
+    S1 --> DBM
+    DBM -. sync .-> DBS
+    S2 --> Redis
+```
+
 **Diagram tips:**
 - Color-code own modules vs. dependencies in business architecture
 - Keep data flow direction consistent across all three views
 - Architecture diagrams show structure; sequence diagrams show detail — don't mix them
+- Mermaid tips: use `subgraph` for layering, `[( )]` for storage, `-. ->` for async/replication flows
 
 ### Step 3: Detailed Design
 

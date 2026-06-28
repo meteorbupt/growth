@@ -65,10 +65,95 @@ description: "编写和审核后端技术方案设计文档。当用户需要写
 | **应用架构** | 微服务 | 由几个微服务组成？数据如何纵向流动（UI→网关→服务→基础设施）？ |
 | **部署架构** | 物理结构 | 实际怎么部署？网络、网关、防火墙、存储的真实拓扑？ |
 
+**参考示例（电商订单系统，Mermaid 语法）：**
+
+**① 业务架构图**（业务功能模块与上下游）：
+```mermaid
+flowchart TD
+    subgraph Users["用户角色"]
+        C["消费者"]
+        M["商家"]
+    end
+    subgraph BizModules["业务功能模块（自建）"]
+        IC["商品中心"]
+        OC["订单中心"]
+        PC["支付中心"]
+        MC["营销中心"]
+    end
+    subgraph ThirdParty["上下游 / 第三方依赖"]
+        LP["物流服务"]
+        PG["第三方支付"]
+        NS["消息通知"]
+    end
+    C --> IC
+    C --> OC
+    M --> IC
+    OC --> PC
+    OC --> MC
+    PC --> PG
+    OC --> LP
+    MC --> NS
+```
+
+**② 应用架构图**（微服务纵向分层）：
+```mermaid
+flowchart TD
+    UI["前端 UI"]
+    GW["API 网关 / 负载均衡"]
+    subgraph Services["微服务层"]
+        PSvc["商品服务"]
+        OSvc["订单服务"]
+        PaySvc["支付服务"]
+    end
+    subgraph Infra["基础设施层"]
+        DB[("MySQL")]
+        Cache[("Redis")]
+        MQ[("消息队列")]
+    end
+    UI --> GW
+    GW --> PSvc
+    GW --> OSvc
+    GW --> PaySvc
+    PSvc --> DB
+    OSvc --> DB
+    OSvc --> Cache
+    OSvc --> MQ
+    PaySvc --> MQ
+```
+
+**③ 部署架构图**（物理拓扑）：
+```mermaid
+flowchart TD
+    User(("用户"))
+    FW["防火墙"]
+    LB["负载均衡 Nginx"]
+    subgraph K8s["K8s 集群"]
+        GWPod["API 网关 Pod"]
+        subgraph Pods["业务服务 Pod"]
+            S1["订单服务 x3"]
+            S2["商品服务 x3"]
+        end
+    end
+    subgraph DataLayer["数据层"]
+        DBM[("MySQL 主")]
+        DBS[("MySQL 从")]
+        Redis[("Redis 主从")]
+    end
+    User --> FW
+    FW --> LB
+    LB --> GWPod
+    GWPod --> S1
+    GWPod --> S2
+    S1 --> DBM
+    DBM -. 同步 .-> DBS
+    S2 --> Redis
+```
+
 **画图要点：**
 - 业务架构用颜色区分自己的模块和依赖模块
 - 三张图的数据流向保持一致
 - 架构图讲结构，时序图讲细节，不要混在一起
+- Mermaid 技巧：`subgraph` 分层、`[( )]` 表示存储、`-. ->` 表示异步/同步特殊流向
 
 ### 第三步：方案详细设计
 
