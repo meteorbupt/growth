@@ -3,492 +3,426 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>如何做好技术规划 · 管理知识卡</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<title>如何做好技术规划</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0f1115;
-  --bg-2:#161a21;
-  --card:#1c2129;
-  --line:#2a3038;
-  --gold:#d4a857;
-  --gold-soft:#e8c987;
-  --teal:#5fb8a8;
-  --text:#e8e6e1;
-  --text-2:#9a958a;
-  --text-3:#6b665c;
-  --accent:#c96f4a;
+  --blue:#2563eb;
+  --blue-dark:#1e3a8a;
+  --blue-mid:#3b82f6;
+  --blue-light:#eff6ff;
+  --blue-lighter:#dbeafe;
+  --sky:#0ea5e9;
+  --bg:#ffffff;
+  --bg-soft:#f8fafc;
+  --text:#0f172a;
+  --text-2:#475569;
+  --text-3:#94a3b8;
+  --border:#e2e8f0;
+  --border-soft:#f1f5f9;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   background:var(--bg);
   color:var(--text);
-  font-family:'Noto Sans SC',sans-serif;
-  font-weight:300;
-  line-height:1.7;
-  overflow-x:hidden;
-}
-body::before{
-  content:'';position:fixed;inset:0;
-  background-image:
-    radial-gradient(ellipse 800px 600px at 20% 0%, rgba(212,168,87,0.06), transparent),
-    radial-gradient(ellipse 600px 400px at 80% 100%, rgba(95,184,168,0.04), transparent);
-  pointer-events:none;z-index:0;
+  font-family:'Noto Sans SC',-apple-system,sans-serif;
+  font-weight:400;
+  line-height:1.8;
+  -webkit-font-smoothing:antialiased;
 }
 
-/* === HERO === */
-.hero{
-  position:relative;
-  min-height:90vh;
-  display:flex;align-items:center;
-  padding:80px 8vw;
-  border-bottom:1px solid var(--line);
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:16px 0;
 }
-.hero-inner{position:relative;z-index:2;max-width:1100px}
-.tag{
-  display:inline-flex;align-items:center;gap:8px;
+.nav-inner{
+  max-width:1000px;margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{
   font-family:'JetBrains Mono',monospace;
-  font-size:11px;letter-spacing:0.2em;
-  color:var(--gold);
-  text-transform:uppercase;
-  margin-bottom:32px;
-  opacity:0;animation:fadeUp .8s ease forwards;
+  font-size:13px;font-weight:500;
+  color:var(--blue);letter-spacing:0.05em;
 }
-.tag::before{content:'';width:32px;height:1px;background:var(--gold)}
+.nav-logo span{color:var(--text-3)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{
+  font-size:13px;color:var(--text-2);
+  text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover{color:var(--blue)}
+@media(max-width:640px){.nav-links{display:none}}
+
+/* HERO */
+.hero{
+  background:linear-gradient(180deg,var(--blue-light) 0%,#ffffff 100%);
+  padding:90px 24px 70px;
+  border-bottom:1px solid var(--border-soft);
+}
+.hero-inner{max-width:760px;margin:0 auto}
+.hero-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--blue);
+  letter-spacing:0.1em;margin-bottom:24px;
+}
 .hero h1{
   font-family:'Noto Serif SC',serif;
-  font-weight:900;
-  font-size:clamp(2.8rem,7vw,5.2rem);
-  line-height:1.1;
-  letter-spacing:-0.02em;
-  margin-bottom:28px;
-  opacity:0;animation:fadeUp .8s ease .15s forwards;
+  font-weight:700;
+  font-size:clamp(2rem,5vw,3.2rem);
+  line-height:1.25;
+  letter-spacing:-0.01em;
+  color:var(--text);
+  margin-bottom:24px;
 }
-.hero h1 .accent{color:var(--gold);font-style:italic}
-.hero .lead{
-  font-size:clamp(1rem,1.6vw,1.25rem);
+.hero p.lead{
+  font-size:1.1rem;
   color:var(--text-2);
-  max-width:680px;
-  font-weight:300;
-  margin-bottom:40px;
-  opacity:0;animation:fadeUp .8s ease .3s forwards;
+  line-height:1.8;
+  max-width:620px;
 }
-.hero-meta{
-  display:flex;flex-wrap:wrap;gap:32px;
-  font-family:'JetBrains Mono',monospace;
-  font-size:12px;color:var(--text-3);
-  opacity:0;animation:fadeUp .8s ease .45s forwards;
+
+/* ARTICLE */
+.article{
+  max-width:760px;margin:0 auto;padding:70px 24px 100px;
 }
-.hero-meta span b{color:var(--teal);font-weight:600}
-.hero-num{
-  position:absolute;
-  right:6vw;top:50%;transform:translateY(-50%);
+.article section{margin-bottom:72px}
+.article h2{
   font-family:'Noto Serif SC',serif;
-  font-size:clamp(12rem,24vw,22rem);
-  font-weight:900;
-  color:rgba(212,168,87,0.04);
-  z-index:1;user-select:none;
-  line-height:1;
-}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-/* === SECTION === */
-.section{
-  position:relative;z-index:2;
-  padding:100px 8vw;
-  border-bottom:1px solid var(--line);
-}
-.section-head{
-  display:flex;align-items:baseline;gap:24px;
-  margin-bottom:64px;
-  flex-wrap:wrap;
+  font-weight:700;
+  font-size:1.7rem;
+  color:var(--text);
+  margin-bottom:8px;
+  padding-top:8px;
 }
 .section-num{
   font-family:'JetBrains Mono',monospace;
-  font-size:13px;color:var(--gold);
-  letter-spacing:0.1em;
+  font-size:13px;color:var(--blue);
+  margin-bottom:6px;display:block;
 }
-.section-title{
-  font-family:'Noto Serif SC',serif;
-  font-weight:700;
-  font-size:clamp(1.8rem,3.5vw,2.8rem);
-  letter-spacing:-0.01em;
+.article h3{
+  font-size:1.15rem;font-weight:600;
+  color:var(--text);margin:32px 0 12px;
 }
-.section-desc{
+.article p{
   color:var(--text-2);
-  max-width:720px;
-  margin-top:12px;
+  margin-bottom:18px;
+  font-size:1rem;
+}
+.article ul{margin:0 0 20px 0;padding-left:0;list-style:none}
+.article ul li{
+  color:var(--text-2);
+  padding:8px 0 8px 24px;
+  position:relative;
   font-size:0.95rem;
 }
+.article ul li::before{
+  content:'';position:absolute;left:0;top:18px;
+  width:8px;height:2px;background:var(--blue-mid);border-radius:1px;
+}
+strong{color:var(--text);font-weight:600}
 
-/* === FRAMEWORK GRID === */
-.framework{
+/* CARD GRID */
+.grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:1px;
-  background:var(--line);
-  border:1px solid var(--line);
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;margin:28px 0;
 }
-.fw-card{
-  background:var(--bg-2);
-  padding:40px 32px;
-  transition:background .4s;
-  position:relative;
+.card{
+  background:var(--bg-soft);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px 24px;
+  transition:border-color .25s,box-shadow .25s;
 }
-.fw-card:hover{background:var(--card)}
-.fw-icon{
+.card:hover{
+  border-color:var(--blue-mid);
+  box-shadow:0 4px 20px rgba(37,99,235,0.08);
+}
+.card .icon{
+  width:40px;height:40px;
+  background:var(--blue-light);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
   font-family:'Noto Serif SC',serif;
-  font-size:3rem;font-weight:900;
-  color:var(--gold);
-  opacity:0.5;
-  line-height:1;
-  margin-bottom:20px;
+  font-size:1.2rem;font-weight:700;
+  color:var(--blue);margin-bottom:16px;
 }
-.fw-card h3{
-  font-family:'Noto Serif SC',serif;
-  font-size:1.4rem;font-weight:700;
-  margin-bottom:12px;
+.card h4{font-size:1.05rem;font-weight:600;margin-bottom:8px;color:var(--text)}
+.card p{font-size:0.9rem;color:var(--text-2);margin:0;line-height:1.7}
+
+/* COMPARE */
+.compare{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;margin:28px 0;
 }
-.fw-card p{color:var(--text-2);font-size:0.9rem;line-height:1.8}
-.fw-card .role{
-  display:inline-block;
+@media(max-width:600px){.compare{grid-template-columns:1fr}}
+.compare-side{padding:28px 24px}
+.compare-side.before{background:var(--bg-soft);border-right:1px solid var(--border)}
+.compare-side.after{background:var(--blue-light)}
+.compare-side h5{
   font-family:'JetBrains Mono',monospace;
-  font-size:10px;
-  color:var(--teal);
-  margin-top:16px;
-  padding:4px 10px;
-  border:1px solid rgba(95,184,168,0.3);
-  border-radius:2px;
+  font-size:11px;letter-spacing:0.1em;
+  margin-bottom:16px;text-transform:uppercase;
 }
+.compare-side.before h5{color:var(--text-3)}
+.compare-side.after h5{color:var(--blue)}
+.compare-side p{font-size:0.9rem;margin-bottom:12px;line-height:1.7}
+.compare-side p:last-child{margin-bottom:0}
 
-/* === TWO COLUMN === */
-.two-col{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:48px;
-}
-@media(max-width:768px){.two-col{grid-template-columns:1fr}}
-
-/* === PROCESS === */
-.process{
-  display:flex;
-  flex-direction:column;
-  gap:0;
-}
+/* STEP LIST */
+.steps{margin:28px 0}
 .step{
   display:grid;
-  grid-template-columns:80px 1fr;
-  gap:32px;
-  padding:32px 0;
-  border-bottom:1px solid var(--line);
-  align-items:start;
+  grid-template-columns:48px 1fr;
+  gap:20px;
+  padding:20px 0;
+  border-bottom:1px solid var(--border-soft);
 }
 .step:last-child{border-bottom:none}
-.step-n{
+.step .n{
+  width:32px;height:32px;
+  background:var(--blue);color:#fff;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:600;
   font-family:'JetBrains Mono',monospace;
-  font-size:14px;
-  color:var(--text-3);
-  padding-top:4px;
 }
-.step-n b{color:var(--gold);font-size:2rem;display:block;font-family:'Noto Serif SC',serif}
-.step h4{
+.step h4{font-size:1rem;font-weight:600;margin-bottom:4px;color:var(--text)}
+.step p{font-size:0.92rem;color:var(--text-2);margin:0;line-height:1.7}
+
+/* CALLOUT */
+.callout{
+  background:var(--blue-light);
+  border-left:3px solid var(--blue);
+  border-radius:0 8px 8px 0;
+  padding:20px 24px;
+  margin:24px 0;
+}
+.callout p{
   font-family:'Noto Serif SC',serif;
-  font-size:1.15rem;
-  margin-bottom:8px;
-}
-.step p{color:var(--text-2);font-size:0.9rem}
-
-/* === QUOTE === */
-.quote-block{
-  border-left:3px solid var(--gold);
-  padding:24px 32px;
-  background:var(--bg-2);
-  margin:32px 0;
-}
-.quote-block p{
-  font-family:'Noto Serif SC',serif;
-  font-size:1.15rem;
-  font-style:italic;
-  color:var(--gold-soft);
-}
-.quote-block cite{
-  display:block;
-  margin-top:12px;
-  font-size:0.8rem;
-  color:var(--text-3);
-  font-style:normal;
+  font-size:1.05rem;color:var(--blue-dark);
+  margin:0;font-weight:400;line-height:1.7;
 }
 
-/* === COMPARE === */
-.compare{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1px;
-  background:var(--line);
-  border:1px solid var(--line);
-}
-.compare-cell{
-  background:var(--bg-2);
-  padding:28px;
-}
-.compare-cell.bad{border-top:3px solid var(--accent)}
-.compare-cell.good{border-top:3px solid var(--teal)}
-.compare-label{
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:0.15em;
-  margin-bottom:12px;
-}
-.compare-cell.bad .compare-label{color:var(--accent)}
-.compare-cell.good .compare-label{color:var(--teal)}
-.compare-cell p{font-size:0.9rem;color:var(--text-2)}
-
-/* === KEYS === */
+/* KEYS */
 .keys{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:24px;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:16px;margin:28px 0;
 }
-.key-item{
-  padding:24px;
-  background:var(--bg-2);
-  border:1px solid var(--line);
-  border-radius:4px;
-  transition:all .3s;
+.key{
+  padding:20px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:10px;
+  transition:border-color .2s;
 }
-.key-item:hover{
-  border-color:var(--gold);
-  transform:translateY(-2px);
-}
-.key-item .k-num{
+.key:hover{border-color:var(--blue-mid)}
+.key .kn{
   font-family:'JetBrains Mono',monospace;
-  font-size:12px;
-  color:var(--gold);
+  font-size:12px;color:var(--blue);margin-bottom:8px;
 }
-.key-item h4{
-  font-family:'Noto Serif SC',serif;
-  font-size:1.1rem;
-  margin:8px 0;
-}
-.key-item p{color:var(--text-2);font-size:0.85rem}
+.key h4{font-size:1rem;font-weight:600;margin-bottom:6px;color:var(--text)}
+.key p{font-size:0.85rem;color:var(--text-2);margin:0;line-height:1.6}
 
-/* === FOOTER === */
+/* FOOTER */
 .footer{
-  padding:60px 8vw;
-  text-align:center;
-  border-top:1px solid var(--line);
+  border-top:1px solid var(--border);
+  padding:40px 24px;text-align:center;
 }
 .footer p{
   font-family:'JetBrains Mono',monospace;
-  font-size:12px;
-  color:var(--text-3);
-  letter-spacing:0.1em;
-}
-.footer .book{
-  font-family:'Noto Serif SC',serif;
-  font-style:italic;
-  color:var(--gold);
-  margin-bottom:12px;
-  font-size:0.95rem;
+  font-size:12px;color:var(--text-3);letter-spacing:0.05em;
 }
 
-/* === UTIL === */
-.reveal{opacity:0;transform:translateY(30px);transition:all .8s ease}
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s,transform .7s}
 .reveal.visible{opacity:1;transform:translateY(0)}
 </style>
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-num">01</div>
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">GROWTH <span>/ 管理笔记</span></div>
+    <div class="nav-links">
+      <a href="#framework">四要素</a>
+      <a href="#goal">目标表述</a>
+      <a href="#execution">落地执行</a>
+      <a href="#takeaways">核心收获</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
   <div class="hero-inner">
-    <div class="tag">管理知识沉淀 · 管理规划</div>
-    <h1>如何做好<br><span class="accent">技术规划</span></h1>
-    <p class="lead">基于《知行：技术人的管理之路》管理规划框架，系统化回答「这个团队打算怎么带」的核心命题，融合AHP决策、OKR落地与小步迭代原则的实战方法论。</p>
-    <div class="hero-meta">
-      <span>框架来源 <b>《知行》</b></span>
-      <span>核心模型 <b>管理规划四要素</b></span>
-      <span>更新 <b>2026.06</b></span>
-    </div>
+    <div class="hero-label">管理规划 · 笔记 01</div>
+    <h1>如何做好技术规划</h1>
+    <p class="lead">当你开始带一个技术团队，第一个要回答的问题其实很简单：这个团队接下来打算怎么走。技术规划就是把它想清楚、写下来，然后照着做。做管理规划时，有四件事绕不开：职能、目标、团队、路径。</p>
   </div>
-</section>
+</header>
 
-<!-- 四要素 -->
-<section class="section">
-  <div class="section-head reveal">
-    <span class="section-num">§ 01</span>
-    <div>
-      <h2 class="section-title">管理规划四要素</h2>
-      <p class="section-desc">技术规划的核心是回答四个问题：这个团队为什么存在、要取得什么成果、拥有什么资源、如何达成目标。四者形成完整闭环。</p>
-    </div>
-  </div>
-  <div class="framework reveal">
-    <div class="fw-card">
-      <div class="fw-icon">职</div>
-      <h3>职能定位</h3>
-      <p>上级为什么要设立这个团队？明确团队的核心价值和独特定位，区分职责（下限）与使命（上限）。</p>
-      <span class="role">团队价值基础</span>
-    </div>
-    <div class="fw-card">
-      <div class="fw-icon">目</div>
-      <h3>目标制定</h3>
-      <p>上级对团队的产出有什么期待？用SMART原则制定业务目标、专业目标和团建目标，目标尽可能要少。</p>
-      <span class="role">价值体现</span>
-    </div>
-    <div class="fw-card">
-      <div class="fw-icon">团</div>
-      <h3>团队规划</h3>
-      <p>上级对团队的发展有什么期待？从规模、分工、梯度三个维度规划，梯度成熟的团队才有复原力。</p>
-      <span class="role">资源基础</span>
-    </div>
-    <div class="fw-card">
-      <div class="fw-icon">路</div>
-      <h3>路径规划</h3>
-      <p>需要向上级申请哪些资源？在自研、招聘、借调、合作、外包中选择最优路径，管理好依赖风险。</p>
-      <span class="role">达成手段</span>
-    </div>
-  </div>
-</section>
+<main class="article">
 
-<!-- 目标表述 -->
-<section class="section">
-  <div class="section-head reveal">
-    <span class="section-num">§ 02</span>
-    <div>
-      <h2 class="section-title">职能与目标的表述进化</h2>
-      <p class="section-desc">技术表述关注手段，价值表述关注目的。好的规划应从业务价值出发，而非从技术手段出发。</p>
-    </div>
-  </div>
-  <div class="compare reveal">
-    <div class="compare-cell bad">
-      <div class="compare-label">技术表述 · 关注手段</div>
-      <p>把所有应用迁移到 Kubernetes</p>
-      <p style="margin-top:12px">用新的 IPAM 替换 RAS</p>
-      <p style="margin-top:12px">实现基于 Envoy 的服务网格</p>
-    </div>
-    <div class="compare-cell good">
-      <div class="compare-label">价值表述 · 关注目的</div>
-      <p>提升基础设施稳定性，成为公司技术演进的核心支撑团队</p>
-      <p style="margin-top:12px">彻底杜绝 IP 分配冲突，成为基础架构安全的中坚力量</p>
-      <p style="margin-top:12px">提升服务间通信安全，成为微服务架构演进的技术引领者</p>
-    </div>
-  </div>
-  <div class="quote-block reveal">
-    <p>"有没有业务价值不是你说了算，而是你的客户说了算。"</p>
-    <cite>—— 业务价值优先原则：业务价值 &gt; 范围可控 &gt; 技术深度</cite>
-  </div>
-</section>
+  <section id="framework" class="reveal">
+    <span class="section-num">01 / 四个绕不开的问题</span>
+    <h2>管理规划四要素</h2>
+    <p>这四件事是一个整体，从"团队为什么存在"一路推到"具体怎么达成"。顺序大致是固定的——先想清楚职能，才能定目标；有了目标，才知道需要什么样的人；人和目标都清楚了，再倒推需要哪些资源、走哪条路。</p>
 
-<!-- 路径与落地 -->
-<section class="section">
-  <div class="section-head reveal">
-    <span class="section-num">§ 03</span>
-    <div>
-      <h2 class="section-title">落地执行的关键原则</h2>
-      <p class="section-desc">好的规划需要好的落地。从技术选型到路线图制定，核心是克制贪念、小步迭代。</p>
-    </div>
-  </div>
-  <div class="process reveal">
-    <div class="step">
-      <div class="step-n"><b>01</b>STEP</div>
-      <div>
-        <h4>OKR 与技术规划结合</h4>
-        <p>Objective 明确业务价值导向，Key Results 设定可量化的技术指标。全员聚焦，保证资源为战略目标做贡献。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="icon">职</div>
+        <h4>职能定位</h4>
+        <p>上级为什么要设这个团队。它决定了团队该做什么、不该做什么。包括两个层次：职责是下限，使命是上限。</p>
+      </div>
+      <div class="card">
+        <div class="icon">目</div>
+        <h4>目标制定</h4>
+        <p>这个周期内要做成哪些事。好的目标要踮起脚能够到，而且数量要克制，一般三五个就够。</p>
+      </div>
+      <div class="card">
+        <div class="icon">团</div>
+        <h4>团队规划</h4>
+        <p>靠什么样的人来做。从规模、分工、梯度三个角度看。梯队成熟的团队，不会因为一两个人变动就垮掉。</p>
+      </div>
+      <div class="card">
+        <div class="icon">路</div>
+        <h4>路径规划</h4>
+        <p>用什么方式达成。自研、招聘、借调、外包都是选项，关键是选出投入产出比最高的那条，并管理好依赖。</p>
       </div>
     </div>
-    <div class="step">
-      <div class="step-n"><b>02</b>STEP</div>
-      <div>
-        <h4>小步迭代，控制作战范围</h4>
-        <p>第一阶段先跟现有系统集成，逐步过渡。先选取一个核心系统试点，每个阶段都有明确的交付目标和验证标准。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-n"><b>03</b>STEP</div>
-      <div>
-        <h4>管理依赖风险</h4>
-        <p>对每个依赖评估重要程度和控制力。重要依赖控制力弱时，要么获得领导支持，要么重新审视技术决策以去除依赖。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-n"><b>04</b>STEP</div>
-      <div>
-        <h4>理顺关键人员</h4>
-        <p>不要老想着颠覆别人，把相关的人给理顺。把可能提反对意见的意见领袖变成盟友，让他参与解决方案的构建。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-n"><b>05</b>STEP</div>
-      <div>
-        <h4>找到关键的人</h4>
-        <p>技术决策依赖领域内专家而非通才。内部识别有潜力的核心人才，外部动用人脉寻找高手咨询甚至劝其加入。</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- 核心收获 -->
-<section class="section">
-  <div class="section-head reveal">
-    <span class="section-num">§ 04</span>
-    <div>
-      <h2 class="section-title">七条核心收获</h2>
-      <p class="section-desc">从框架到实践，技术规划的精华浓缩。</p>
+    <div class="callout">
+      <p>把"手段"当"目的"，是技术团队最容易踩的坑。</p>
     </div>
-  </div>
-  <div class="keys reveal">
-    <div class="key-item">
-      <span class="k-num">01</span>
-      <h4>四要素是核心</h4>
-      <p>职能、目标、团队、路径形成完整闭环，缺一不可。</p>
+  </section>
+
+  <section id="goal" class="reveal">
+    <span class="section-num">02 / 怎么描述你的目标</span>
+    <h2>从技术表述到价值表述</h2>
+    <p>很多技术规划写出来是这样的："把所有应用迁移到 Kubernetes"。这句话描述的是手段，不是目的。读完你不知道为什么要做这件事，也不知道做完了能带来什么。</p>
+    <p>换个写法："提升基础设施的稳定性，让团队有能力支撑公司接下来的技术演进"。这就把价值讲清楚了。区分这两种表述，是做好规划的基本功。</p>
+
+    <div class="compare">
+      <div class="compare-side before">
+        <h5>技术表述 · 说的是怎么做</h5>
+        <p>把所有应用迁移到 Kubernetes</p>
+        <p>用新的 IPAM 替换旧的方案</p>
+        <p>搭一套基于 Envoy 的服务网格</p>
+      </div>
+      <div class="compare-side after">
+        <h5>价值表述 · 说的是为什么</h5>
+        <p>提升基础设施稳定性，支撑后续技术演进</p>
+        <p>彻底消除 IP 分配冲突，保证基础架构安全</p>
+        <p>提升服务间通信的安全性和可观测性</p>
+      </div>
     </div>
-    <div class="key-item">
-      <span class="k-num">02</span>
-      <h4>职能是价值基础</h4>
-      <p>明确职责（下限）和使命（上限），团队才有凝聚力。</p>
+
+    <p>排优先级的时候有一个顺序可以参考：<strong>业务价值优先，范围可控其次，技术深度最后</strong>。技术深度本身不产生业务价值，它只是达成价值的手段之一。</p>
+  </section>
+
+  <section id="execution" class="reveal">
+    <span class="section-num">03 / 规划怎么落地</span>
+    <h2>落地执行的几条原则</h2>
+    <p>规划写得再漂亮，落地时碰不到真实的人、真实的依赖，就只是一份文档。下面这几条是在实际推进时反复被验证有效的。</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div>
+        <div>
+          <h4>用 OKR 把目标拆开</h4>
+          <p>Objective 说清楚业务价值是什么，Key Results 设定几个可量化的技术指标。全员对齐，资源才能往一个方向使劲。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <div>
+          <h4>小步迭代，别想着一把梭</h4>
+          <p>第一阶段先跟现有系统集成，跑通一个核心场景再说。每个阶段都要有明确的交付物和验证标准，别把验证拖到最后。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <div>
+          <h4>盯住依赖，尤其是控制不住的那些</h4>
+          <p>每个外部依赖都评估一下：多重要，你能不能控制。遇到重要但控制不了的依赖，要么去争取上级支持，要么换方案绕开它。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">4</div>
+        <div>
+          <h4>把人理顺，比改架构更重要</h4>
+          <p>推进一件事，反对声音往往来自意见领袖。与其绕开他们，不如让他们参与进来，变成方案的建设者。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">5</div>
+        <div>
+          <h4>找到真正懂行的关键人</h4>
+          <p>技术决策要听领域专家的，不是听嗓门大的。内部识别有潜力的人重点培养，外部该请教就请教，该挖人就挖人。</p>
+        </div>
+      </div>
     </div>
-    <div class="key-item">
-      <span class="k-num">03</span>
-      <h4>目标要分类</h4>
-      <p>业务目标、专业目标、团建目标各有侧重，且尽可能要少。</p>
+  </section>
+
+  <section id="takeaways" class="reveal">
+    <span class="section-num">04 / 值得记住的几条</span>
+    <h2>核心收获</h2>
+
+    <div class="keys">
+      <div class="key">
+        <div class="kn">01</div>
+        <h4>四要素是一个整体</h4>
+        <p>职能、目标、团队、路径，顺序基本固定，缺了哪一块规划都不完整。</p>
+      </div>
+      <div class="key">
+        <div class="kn">02</div>
+        <h4>职能是地基</h4>
+        <p>想清楚团队的价值定位，后面三件事才有依据。职责是下限，使命是上限。</p>
+      </div>
+      <div class="key">
+        <div class="kn">03</div>
+        <h4>目标要分类、要克制</h4>
+        <p>业务目标、专业目标、团建目标各有侧重，但总数别贪多，三五个为宜。</p>
+      </div>
+      <div class="key">
+        <div class="kn">04</div>
+        <h4>梯队决定抗风险能力</h4>
+        <p>只靠一两个高手的团队很脆弱。梯队搭起来，人走了业务也能继续转。</p>
+      </div>
+      <div class="key">
+        <div class="kn">05</div>
+        <h4>业务价值优先</h4>
+        <p>定义问题时，业务价值 > 范围可控 > 技术深度。技术深度是手段，不是目的。</p>
+      </div>
+      <div class="key">
+        <div class="kn">06</div>
+        <h4>小步迭代，边走边验证</h4>
+        <p>别把所有验证都压到最后。分阶段交付，每个阶段都拿出来跑一下。</p>
+      </div>
+      <div class="key">
+        <div class="kn">07</div>
+        <h4>时间也是一种资源</h4>
+        <p>除了人财物，时间、信息、权限都算资源。做路径规划时要把这些一起算进去。</p>
+      </div>
     </div>
-    <div class="key-item">
-      <span class="k-num">04</span>
-      <h4>梯度保障复原力</h4>
-      <p>成熟团队不会因核心人员变动而垮掉，梯队是关键。</p>
-    </div>
-    <div class="key-item">
-      <span class="k-num">05</span>
-      <h4>定义问题更重要</h4>
-      <p>业务价值优先，范围可控优先，技术深度最后。</p>
-    </div>
-    <div class="key-item">
-      <span class="k-num">06</span>
-      <h4>小步迭代是关键</h4>
-      <p>克制贪念，控制作战范围，分阶段交付价值。</p>
-    </div>
-    <div class="key-item">
-      <span class="k-num">07</span>
-      <h4>时间也是资源</h4>
-      <p>人财物之外，时间、信息、权限都是重要的规划资源。</p>
-    </div>
-  </div>
-</section>
+  </section>
+
+</main>
 
 <footer class="footer">
-  <p class="book">基于《知行：技术人的管理之路》刘建国著</p>
-  <p>GROWTH · TEAM MANAGEMENT · 2026</p>
+  <p>GROWTH · 管理笔记 · 2026</p>
 </footer>
 
 <script>
-const observer = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
-},{threshold:0.15});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>ob.observe(el));
 </script>
 </body>
 </html>
