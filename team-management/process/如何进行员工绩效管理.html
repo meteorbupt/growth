@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>如何进行员工绩效管理 · 管理知识卡</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0d12;
+  --bg-2:#141821;
+  --card:#1a1f2a;
+  --line:#262d3a;
+  --gold:#e0b25a;
+  --gold-soft:#f0d090;
+  --teal:#5fc8b8;
+  --text:#ece9e3;
+  --text-2:#908a7e;
+  --text-3:#5a564d;
+  --accent:#d97757;
+  --blue:#6ba4d9;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Noto Sans SC',sans-serif;
+  font-weight:300;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    radial-gradient(ellipse 900px 500px at 80% 0%, rgba(224,178,90,0.07), transparent),
+    radial-gradient(ellipse 700px 400px at 10% 60%, rgba(95,200,184,0.04), transparent);
+  pointer-events:none;z-index:0;
+}
+
+/* HERO */
+.hero{
+  position:relative;
+  min-height:90vh;
+  display:flex;align-items:center;
+  padding:80px 8vw;
+  border-bottom:1px solid var(--line);
+}
+.hero-inner{position:relative;z-index:2;max-width:1100px}
+.tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:0.2em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:32px;
+  opacity:0;animation:fadeUp .8s ease forwards;
+}
+.tag::before{content:'';width:32px;height:1px;background:var(--gold)}
+.hero h1{
+  font-family:'Noto Serif SC',serif;
+  font-weight:900;
+  font-size:clamp(2.6rem,6.5vw,4.8rem);
+  line-height:1.1;
+  letter-spacing:-0.02em;
+  margin-bottom:28px;
+  opacity:0;animation:fadeUp .8s ease .15s forwards;
+}
+.hero h1 .accent{color:var(--gold);font-style:italic}
+.hero .lead{
+  font-size:clamp(1rem,1.5vw,1.2rem);
+  color:var(--text-2);
+  max-width:680px;
+  font-weight:300;
+  margin-bottom:40px;
+  opacity:0;animation:fadeUp .8s ease .3s forwards;
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;gap:32px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--text-3);
+  opacity:0;animation:fadeUp .8s ease .45s forwards;
+}
+.hero-meta span b{color:var(--teal);font-weight:600}
+.hero-num{
+  position:absolute;
+  right:6vw;top:50%;transform:translateY(-50%);
+  font-family:'Noto Serif SC',serif;
+  font-size:clamp(12rem,24vw,22rem);
+  font-weight:900;
+  color:rgba(224,178,90,0.04);
+  z-index:1;user-select:none;line-height:1;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION */
+.section{
+  position:relative;z-index:2;
+  padding:100px 8vw;
+  border-bottom:1px solid var(--line);
+}
+.section-head{
+  display:flex;align-items:baseline;gap:24px;
+  margin-bottom:56px;flex-wrap:wrap;
+}
+.section-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;color:var(--gold);
+  letter-spacing:0.1em;
+}
+.section-title{
+  font-family:'Noto Serif SC',serif;
+  font-weight:700;
+  font-size:clamp(1.8rem,3.5vw,2.8rem);
+  letter-spacing:-0.01em;
+}
+.section-desc{
+  color:var(--text-2);
+  max-width:740px;
+  margin-top:12px;font-size:0.95rem;
+}
+
+/* QUOTE */
+.quote-block{
+  border-left:3px solid var(--gold);
+  padding:24px 32px;
+  background:var(--bg-2);
+  margin:32px 0;
+}
+.quote-block p{
+  font-family:'Noto Serif SC',serif;
+  font-size:1.15rem;font-style:italic;
+  color:var(--gold-soft);
+}
+.quote-block cite{
+  display:block;margin-top:12px;
+  font-size:0.8rem;color:var(--text-3);font-style:normal;
+}
+
+/* PDCA */
+.pdca-wrap{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+@media(max-width:768px){.pdca-wrap{grid-template-columns:1fr}}
+.pdca-card{
+  background:var(--bg-2);
+  padding:36px 32px;
+  position:relative;
+  transition:background .4s;
+}
+.pdca-card:hover{background:var(--card)}
+.pdca-letter{
+  position:absolute;top:24px;right:28px;
+  font-family:'Noto Serif SC',serif;
+  font-size:4rem;font-weight:900;
+  color:var(--gold);opacity:0.15;line-height:1;
+}
+.pdca-card h3{
+  font-family:'Noto Serif SC',serif;
+  font-size:1.3rem;font-weight:700;
+  margin-bottom:8px;
+}
+.pdca-card .stage{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--teal);
+  margin-bottom:16px;
+}
+.pdca-card p{color:var(--text-2);font-size:0.9rem}
+.pdca-card ul{
+  margin-top:14px;list-style:none;
+}
+.pdca-card ul li{
+  font-size:0.85rem;color:var(--text-2);
+  padding-left:18px;position:relative;
+  margin-bottom:8px;
+}
+.pdca-card ul li::before{
+  content:'';position:absolute;left:0;top:10px;
+  width:8px;height:1px;background:var(--gold);
+}
+
+/* FIVE STEPS */
+.steps5{
+  display:flex;
+  flex-direction:column;
+}
+.s5-item{
+  display:grid;
+  grid-template-columns:90px 1fr 200px;
+  gap:32px;
+  padding:28px 0;
+  border-bottom:1px solid var(--line);
+  align-items:center;
+}
+@media(max-width:768px){.s5-item{grid-template-columns:60px 1fr}}
+.s5-n{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;color:var(--text-3);
+}
+.s5-n b{
+  color:var(--gold);font-size:2.2rem;
+  display:block;font-family:'Noto Serif SC',serif;
+}
+.s5-item h4{
+  font-family:'Noto Serif SC',serif;
+  font-size:1.15rem;margin-bottom:6px;
+}
+.s5-item p{color:var(--text-2);font-size:0.88rem}
+.s5-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;color:var(--teal);
+  padding:6px 12px;border:1px solid rgba(95,200,184,0.3);
+  border-radius:2px;text-align:center;
+}
+@media(max-width:768px){.s5-tag{display:none}}
+
+/* SKILL GRID */
+.skill-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
+}
+.skill-card{
+  background:var(--bg-2);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:28px;
+  transition:all .3s;
+}
+.skill-card:hover{
+  border-color:var(--gold);
+  transform:translateY(-3px);
+}
+.skill-card .label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:14px;
+}
+.skill-card h4{
+  font-family:'Noto Serif SC',serif;
+  font-size:1.15rem;margin-bottom:12px;
+}
+.skill-card p{color:var(--text-2);font-size:0.85rem;margin-bottom:12px}
+.skill-card .formula{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.82rem;
+  color:var(--gold-soft);
+  background:rgba(224,178,90,0.08);
+  padding:10px 14px;
+  border-radius:4px;
+}
+
+/* COMPARE */
+.compare{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+@media(max-width:768px){.compare{grid-template-columns:1fr}}
+.compare-cell{
+  background:var(--bg-2);
+  padding:28px;
+}
+.compare-cell.bad{border-top:3px solid var(--accent)}
+.compare-cell.good{border-top:3px solid var(--teal)}
+.compare-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;text-transform:uppercase;
+  letter-spacing:0.15em;margin-bottom:16px;
+}
+.compare-cell.bad .compare-label{color:var(--accent)}
+.compare-cell.good .compare-label{color:var(--teal)}
+.compare-cell ul{list-style:none}
+.compare-cell ul li{
+  font-size:0.88rem;color:var(--text-2);
+  padding:8px 0 8px 20px;position:relative;
+  border-bottom:1px solid var(--line);
+}
+.compare-cell ul li:last-child{border-bottom:none}
+.compare-cell ul li::before{
+  position:absolute;left:0;
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+}
+.compare-cell.bad ul li::before{content:'✕';color:var(--accent)}
+.compare-cell.good ul li::before{content:'✓';color:var(--teal)}
+
+/* KEYS */
+.keys{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;
+}
+.key-item{
+  padding:24px;
+  background:var(--bg-2);
+  border:1px solid var(--line);
+  border-radius:4px;
+  transition:all .3s;
+}
+.key-item:hover{
+  border-color:var(--gold);
+  transform:translateY(-2px);
+}
+.key-item .k-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--gold);
+}
+.key-item h4{
+  font-family:'Noto Serif SC',serif;
+  font-size:1.05rem;margin:8px 0;
+}
+.key-item p{color:var(--text-2);font-size:0.85rem}
+
+/* FOOTER */
+.footer{
+  padding:60px 8vw;text-align:center;
+  border-top:1px solid var(--line);
+}
+.footer p{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--text-3);
+  letter-spacing:0.1em;
+}
+.footer .book{
+  font-family:'Noto Serif SC',serif;
+  font-style:italic;color:var(--gold);
+  margin-bottom:12px;font-size:0.95rem;
+}
+
+.reveal{opacity:0;transform:translateY(30px);transition:all .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-num">02</div>
+  <div class="hero-inner">
+    <div class="tag">管理知识沉淀 · 绩效管理</div>
+    <h1>如何进行<br><span class="accent">员工绩效管理</span></h1>
+    <p class="lead">融合德鲁克《卓有成效的管理者》的管理哲学与《知行》的实践框架，系统化构建从目标设定、持续辅导到结果应用的完整绩效管理闭环。</p>
+    <div class="hero-meta">
+      <span>理论源头 <b>德鲁克 MBO</b></span>
+      <span>核心框架 <b>PDCA · 五步法</b></span>
+      <span>更新 <b>2026.06</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- 思想基石 -->
+<section class="section">
+  <div class="section-head reveal">
+    <span class="section-num">§ 01</span>
+    <div>
+      <h2 class="section-title">德鲁克的管理哲学</h2>
+      <p class="section-desc">在进行具体操作前，先建立正确的管理认知。德鲁克在1954年提出的MBO，是所有现代绩效工具（KPI、OKR、平衡记分卡）的共同源头。</p>
+    </div>
+  </div>
+  <div class="quote-block reveal">
+    <p>"绩效的核心是赋能成长、对齐组织目标，而非惩罚、压榨员工。"</p>
+    <cite>—— 彼得·德鲁克《管理的实践》，目标管理（MBO）创始人</cite>
+  </div>
+  <div class="skill-grid reveal" style="margin-top:40px">
+    <div class="skill-card">
+      <div class="label">思想 01 · 关注贡献</div>
+      <h4>从"做什么"到"贡献什么"</h4>
+      <p>绩效应以价值创造为核心，而非以工作量为核心。关注产出而非投入。</p>
+      <div class="formula">成果 &gt; 努力</div>
+    </div>
+    <div class="skill-card">
+      <div class="label">思想 02 · 发挥长处</div>
+      <h4>让长处更长，短处无关紧要</h4>
+      <p>评估和培养应聚焦员工优势。管理者的任务不是改变人，而是让长处得到发挥。</p>
+      <div class="formula">优势定制 ≠ 整齐划一</div>
+    </div>
+    <div class="skill-card">
+      <div class="label">思想 03 · 要事优先</div>
+      <h4>少而精，集中突破</h4>
+      <p>绩效目标3-5个为宜，不超过8个。集中力量于少数重要领域，而非什么都考核。</p>
+      <div class="formula">3 ~ 5 个核心目标</div>
+    </div>
+    <div class="skill-card">
+      <div class="label">思想 04 · 知识工作者</div>
+      <h4>自我管理而非过程控制</h4>
+      <p>知识工作者需要自主性和创造空间，动力来自内在激励。赋予目标，提供反馈。</p>
+      <div class="formula">自主 + 反馈 &gt; 监督</div>
+    </div>
+  </div>
+</section>
+
+<!-- PDCA -->
+<section class="section">
+  <div class="section-head reveal">
+    <span class="section-num">§ 02</span>
+    <div>
+      <h2 class="section-title">PDCA 绩效管理循环</h2>
+      <p class="section-desc">绩效管理是一个完整的系统工程，四个环节缺一不可。其中绩效计划是最重要的环节，绩效辅导直接决定成败。</p>
+    </div>
+  </div>
+  <div class="pdca-wrap reveal">
+    <div class="pdca-card">
+      <div class="pdca-letter">P</div>
+      <div class="stage">PLAN · 计划</div>
+      <h3>绩效计划</h3>
+      <p>最重要的环节。制定目标和标准，基于SMART原则。</p>
+      <ul>
+        <li>目标结合战略、职责、个人优势</li>
+        <li>关键指标 5 个左右，不超过 8 个</li>
+        <li>每个目标回答"能贡献什么价值"</li>
+      </ul>
+    </div>
+    <div class="pdca-card">
+      <div class="pdca-letter">D</div>
+      <div class="stage">DO · 执行</div>
+      <h3>绩效辅导</h3>
+      <p>直接决定绩效管理成败的环节。持续监控与辅导。</p>
+      <ul>
+        <li>定期 1 对 1 面谈（每周或每两周）</li>
+        <li>了解进展，提供资源，纠正偏差</li>
+        <li>避免等到期末才一次性算账</li>
+      </ul>
+    </div>
+    <div class="pdca-card">
+      <div class="pdca-letter">C</div>
+      <div class="stage">CHECK · 检查</div>
+      <h3>绩效考核</h3>
+      <p>对员工表现进行认真评估并打分，注意避免趋中倾向。</p>
+      <ul>
+        <li>结合管理者评估与 360 度反馈</li>
+        <li>关注"做出了什么贡献"而非缺点</li>
+        <li>强制分布保障筛选器功能</li>
+      </ul>
+    </div>
+    <div class="pdca-card">
+      <div class="pdca-letter">A</div>
+      <div class="stage">ACTION · 处理</div>
+      <h3>绩效反馈与改进</h3>
+      <p>面谈、改进计划、结果应用。聚焦未来发展而非过去。</p>
+      <ul>
+        <li>共同回顾表现，制定改进计划</li>
+        <li>结果应用于薪酬、晋升、培训</li>
+        <li>持续完善绩效制度</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 五步法 -->
+<section class="section">
+  <div class="section-head reveal">
+    <span class="section-num">§ 03</span>
+    <div>
+      <h2 class="section-title">绩效管理五步法</h2>
+      <p class="section-desc">《知行》提出的完整协议流程：从制定到沟通，每一步都有明确的目标和原则。</p>
+    </div>
+  </div>
+  <div class="steps5 reveal">
+    <div class="s5-item">
+      <div class="s5-n"><b>01</b>制定</div>
+      <div>
+        <h4>绩效制定</h4>
+        <p>明确希望员工把工作重点放在哪里，结合个人优势定制化设定目标。</p>
+      </div>
+      <div class="s5-tag">发挥长处</div>
+    </div>
+    <div class="s5-item">
+      <div class="s5-n"><b>02</b>确认</div>
+      <div>
+        <h4>绩效确认</h4>
+        <p>管理者和员工都要认同这个计划，单方面认同不构成有效协议。</p>
+      </div>
+      <div class="s5-tag">共同制定</div>
+    </div>
+    <div class="s5-item">
+      <div class="s5-n"><b>03</b>维护</div>
+      <div>
+        <h4>绩效维护</h4>
+        <p>工作内容有重大调整时及时更新目标，动态调整，避免频繁变动。</p>
+      </div>
+      <div class="s5-tag">动态调整</div>
+    </div>
+    <div class="s5-item">
+      <div class="s5-n"><b>04</b>评估</div>
+      <div>
+        <h4>绩效评估</h4>
+        <p>对工作表现认真评估打分，聚焦贡献和价值创造，而非缺点。</p>
+      </div>
+      <div class="s5-tag">关注贡献</div>
+    </div>
+    <div class="s5-item">
+      <div class="s5-n"><b>05</b>沟通</div>
+      <div>
+        <h4>绩效沟通</h4>
+        <p>充分沟通达到三个效果：对齐信息、辅导工作、激励员工。</p>
+      </div>
+      <div class="s5-tag">赋能成长</div>
+    </div>
+  </div>
+</section>
+
+<!-- 面谈技巧 -->
+<section class="section">
+  <div class="section-head reveal">
+    <span class="section-num">§ 04</span>
+    <div>
+      <h2 class="section-title">反馈面谈：两大核心技巧</h2>
+      <p class="section-desc">主动积极式反馈强化优势，BEST模型处理负面反馈。好反馈聚焦未来，而非纠结过去。</p>
+    </div>
+  </div>
+  <div class="skill-grid reveal">
+    <div class="skill-card">
+      <div class="label">正面反馈 · 主动积极式</div>
+      <h4>积极要素 + 主动因素</h4>
+      <p>给予正面评价而非负面打击；用发问引导对方进一步表达，强化成功经验。</p>
+      <div class="formula">✕ "做得不错"<br>✓ "这个设计很有创意，你当时是怎么想到的？"</div>
+    </div>
+    <div class="skill-card">
+      <div class="label">负面反馈 · BEST模型</div>
+      <h4>B → E → S → T</h4>
+      <p>客观描述行为（B），表达影响（E），提出建议（S），表达信任（T）。</p>
+      <div class="formula">事实 + 影响 + 建议 + 信任</div>
+    </div>
+  </div>
+</section>
+
+<!-- 激励公式 -->
+<section class="section">
+  <div class="section-head reveal">
+    <span class="section-num">§ 05</span>
+    <div>
+      <h2 class="section-title">员工激励与能力培养</h2>
+      <p class="section-desc">绩效取决于能力和意愿两个因素。激励要因人而异，培养要遵循7-2-1法则。</p>
+    </div>
+  </div>
+  <div class="skill-grid reveal">
+    <div class="skill-card">
+      <div class="label">高效执行公式</div>
+      <h4>个体产能 × 协作 × 方向</h4>
+      <p>员工个体产能 = 实力 × 意愿。管理者通过能力培养和员工激励提升个体有效度。</p>
+      <div class="formula">产能 = 实力 × 意愿</div>
+    </div>
+    <div class="skill-card">
+      <div class="label">7-2-1 法则</div>
+      <h4>能力提升的黄金配比</h4>
+      <p>70% 靠工作实践，20% 靠交流讨论，10% 靠学习。围绕优势领域展开。</p>
+      <div class="formula">70% 实践 + 20% 交流 + 10% 学习</div>
+    </div>
+    <div class="skill-card">
+      <div class="label">知识工作者</div>
+      <h4>内在激励优先</h4>
+      <p>成就感、成长感、使命感比物质奖励更持久。给予目标和自主权，提供反馈而非过程控制。</p>
+      <div class="formula">内在激励 &gt; 外在激励</div>
+    </div>
+  </div>
+</section>
+
+<!-- 强制分布 -->
+<section class="section">
+  <div class="section-head reveal">
+    <span class="section-num">§ 06</span>
+    <div>
+      <h2 class="section-title">1对1面谈 vs 年终评估</h2>
+      <p class="section-desc">高频持续的沟通比年终评估更重要。好的1对1面谈是绩效管理的日常抓手。</p>
+    </div>
+  </div>
+  <div class="compare reveal">
+    <div class="compare-cell bad">
+      <div class="compare-label">低效做法 · 年终算账</div>
+      <ul>
+        <li>平时不沟通，年终才反馈</li>
+        <li>绩效面谈变成通知结果</li>
+        <li>缺乏过程辅导和数据收集</li>
+        <li>员工感到突然和不公</li>
+        <li>错过纠偏的最佳时机</li>
+      </ul>
+    </div>
+    <div class="compare-cell good">
+      <div class="compare-label">高效做法 · 持续反馈</div>
+      <ul>
+        <li>每周或每两周固定 1 对 1 面谈</li>
+        <li>持续对齐目标和期望</li>
+        <li>及时发现问题并提供支持</li>
+        <li>建立信任的沟通通道</li>
+        <li>绩效面谈做阶段性总结</li>
+      </ul>
+    </div>
+  </div>
+  <div class="quote-block reveal">
+    <p>"如果管理者利用绩效评估会议来简单重复每周一对一的反馈，那么它们就会成为一种多余的复选活动。"</p>
+    <cite>—— 1对1做持续反馈，绩效面谈做阶段总结和发展规划</cite>
+  </div>
+</section>
+
+<!-- 核心收获 -->
+<section class="section">
+  <div class="section-head reveal">
+    <span class="section-num">§ 07</span>
+    <div>
+      <h2 class="section-title">七条核心收获</h2>
+      <p class="section-desc">从德鲁克哲学到实践框架，绩效管理的精华浓缩。</p>
+    </div>
+  </div>
+  <div class="keys reveal">
+    <div class="key-item">
+      <span class="k-num">01</span>
+      <h4>本质是赋能成长</h4>
+      <p>MBO的初衷是对齐目标、赋能员工，而非惩罚压榨。</p>
+    </div>
+    <div class="key-item">
+      <span class="k-num">02</span>
+      <h4>关注贡献</h4>
+      <p>以价值创造衡量绩效，而非以工作量衡量。</p>
+    </div>
+    <div class="key-item">
+      <span class="k-num">03</span>
+      <h4>发挥长处</h4>
+      <p>目标、评估、培养都围绕优势展开。</p>
+    </div>
+    <div class="key-item">
+      <span class="k-num">04</span>
+      <h4>绩效是工作协议</h4>
+      <p>上下级共同制定，相互认同是最大的公平。</p>
+    </div>
+    <div class="key-item">
+      <span class="k-num">05</span>
+      <h4>OKR 与 KPI 互补</h4>
+      <p>同源于MBO，一个牵引方向，一个考核结果。</p>
+    </div>
+    <div class="key-item">
+      <span class="k-num">06</span>
+      <h4>1对1是日常抓手</h4>
+      <p>高频沟通比年终评估更重要，避免惊喜和惊吓。</p>
+    </div>
+    <div class="key-item">
+      <span class="k-num">07</span>
+      <h4>7-2-1 法则</h4>
+      <p>能力培养 70% 靠实践，围绕优势展开。</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="book">基于《卓有成效的管理者》德鲁克 著 · 《知行》刘建国 著</p>
+  <p>GROWTH · TEAM MANAGEMENT · 2026</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
