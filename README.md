@@ -8,6 +8,9 @@
 growth/
 ├── README.md                 # 项目说明
 │
+├── skills/                   # 技能模板
+│   └── tech-planning/        # 技术规划技能
+│
 ├── technical-skills/         # 技术能力
 │   ├── programming/          # 编程语言与框架
 │   ├── architecture/         # 架构设计
@@ -20,6 +23,14 @@ growth/
 │   ├── hiring/               # 招聘与面试
 │   └── process/              # 流程管理
 ```
+
+## Skills 说明
+
+本知识库包含可复用的技能模板（Skills），用于指导特定场景下的工作：
+
+| 技能名称 | 说明 | 调用时机 |
+|----------|------|----------|
+| [tech-planning](./skills/tech-planning/SKILL.md) | 技术规划文档编写 | 当需要技术规划、技术路线图、技术战略或团队技术方向规划时 |
 
 ## 使用说明
 
@@ -61,4 +72,5 @@ growth/
 
 ## 更新日志
 
+- 2026-06-27：添加技术规划技能模板（skills目录）
 - 2026-06-27：项目初始化，创建基础结构
